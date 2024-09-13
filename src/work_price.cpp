@@ -5,8 +5,8 @@
 
 using namespace std;
 
-int main() {
-    ifstream file("data_ListSmeta.csv");
+int main() {    
+    ifstream file("../data_ListSmeta.csv");
     string line, cell;
 
     // Вектор для хранения отфильтрованных данных (строки с текстом > 10 символов)
@@ -22,13 +22,13 @@ int main() {
         current_row++; // Увеличиваем счетчик строк
 
         // Обрабатываем только строки с 17 по 304
-        if (current_row >= 17 && current_row <= 304) {
+        if (current_row >= 16 && current_row <= 306) {
             stringstream lineStream(line);
 
             // Чтение только первой ячейки (столбец A)
             if (getline(lineStream, cell, ';')) {
                 // Проверка, что это строки с типом выполняемых работ
-                if (current_row == 17 || current_row == 97 || current_row == 206 || current_row == 250 || current_row == 274 || current_row == 296) {
+                if (current_row == 16 || current_row == 96 || current_row == 205 || current_row == 249 || current_row == 273 || current_row == 295) {
                     work_type_data.push_back(cell); // Сохраняем как тип работ
                 } else {
                     // Проверка, что длина текста больше 10 символов
