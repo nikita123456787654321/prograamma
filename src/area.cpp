@@ -70,7 +70,7 @@ void clearConsole() {
 }
 
 // Основная программа
-int main() {
+void test() {
     // Переменные для размеров комнаты
     double length, width, height;
     int num_doors, num_windows;
@@ -107,5 +107,4 @@ int main() {
     cout << "Obshchaya ploshchad' okon: " << total_window_area << " kv.m." << endl;
     cout << "Ploshchad' sten bez ucheta dverey i okon: " << S_walls_net << " kv.m." << endl;
 
-    return 0;
 }
