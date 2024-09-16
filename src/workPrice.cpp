@@ -1,61 +1,11 @@
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <vector>
-#include <string>
-#include <algorithm> // For std::replace and std::transform
-#include <conio.h> 
-#include <windows.h>  // For _kbhit and _getch
+#include "headers.hpp"
+#include "wpClasses.hpp"
 
 using namespace std;
 
-// Class to represent a work item
-
-
-class WorkItem {
-public:
-    string name;
-    double pricePerUnit;
-    double totalArea;
-
-    // Default constructor
-    WorkItem() : name(""), pricePerUnit(0.0), totalArea(0.0) {}
-
-    // Parameterized constructor
-    WorkItem(const string& n, double price, double area)
-        : name(n), pricePerUnit(price), totalArea(area) {}
-
-    // Method to display detailed information about the work item
-    void display() const {
-        cout << "Name: " << name << "\n";
-        cout << "Price per unit: " << pricePerUnit << "\n";
-        cout << "Total area: " << totalArea << "\n";
-        cout << "-------------------------------------\n";
-    }
-};
-
-class ShoppingCart {
-public:
-    // Add an item to the cart
-    void addItem(const WorkItem& item) {
-        items.push_back(item);
-    }
-
-    // Display the contents of the cart
-    void display() const {
-        if (items.empty()) {
-            cout << "The cart is empty.\n";
-        } else {
-            cout << "Items in the cart:\n";
-            for (const auto& item : items) {
-                item.display();
-            }
-        }
-    }
-
-private:
-    vector<WorkItem> items;
-};
+// Forward declaration of classes
+class WorkItem;
+class ShoppingCart;
 
 // Function to replace commas with dots
 string replaceCommaWithDot(const string& str) {
@@ -84,12 +34,6 @@ bool stringToDouble(const string& str, double& value) {
         return false;
     }
     
-    // Handle cases where there are no decimal points in the number
-    if (str.find('.') == string::npos && str.find(',') == string::npos) {
-        // If no decimal point is present, ensure that it's represented as double with zero decimal places
-        value = static_cast<double>(static_cast<int>(value));
-    }
-
     return true;
 }
 
@@ -115,13 +59,11 @@ vector<WorkItem> searchInColumn(const vector<WorkItem>& workItems, const string&
     return results;
 }
 
-int main() {
-    ifstream file("../data_ListSmeta.csv");
+// Function to load work items from file
+vector<WorkItem> loadWorkItems(const string& filename) {
+    ifstream file(filename);
     string line;
-
     vector<WorkItem> workItems;
-    string searchTerm;
-    ShoppingCart cart; // Create a ShoppingCart object
 
     while (getline(file, line)) {
         stringstream lineStream(line);
@@ -146,6 +88,12 @@ int main() {
         }
     }
 
+    return workItems;
+}
+
+// Function to handle user input and search interactions
+void handleUserInput(vector<WorkItem>& workItems, ShoppingCart& cart) {
+    string searchTerm;
     int selectedIndex = 0;
     bool isSearching = true;
 
@@ -157,7 +105,7 @@ int main() {
                 vector<WorkItem> searchResults = searchInColumn(workItems, searchTerm);
 
                 if (input == '0') {
-                    return 0;
+                    break;
                 }
 
                 if (input == '\r') {
@@ -215,11 +163,17 @@ int main() {
         while (true) {
             if (_kbhit()) {
                 if (_getch() == '0') {
-                    return 0;
+                    break;
                 }
             }
         }
     }
+}
 
-    return 0;
+// Main function
+void search() {
+    vector<WorkItem> workItems = loadWorkItems("../data_ListSmeta.csv");
+    ShoppingCart cart; // Create a ShoppingCart object
+
+    handleUserInput(workItems, cart);
 }
