@@ -5,27 +5,26 @@ using namespace std;
 class WorkItem {
 public:
     string name;
+    string unit; // New field for the second column
     double pricePerUnit;
-    double totalArea;
+    double totalArea; // Optional, depending on your needs
 
     // Default constructor
-    WorkItem() : name(""), pricePerUnit(0.0), totalArea(0.0) {}
+    WorkItem() : name(""), unit(""), pricePerUnit(0.0), totalArea(0.0) {}
 
     // Parameterized constructor
-    WorkItem(const string& n, double price, double area)
-        : name(n), pricePerUnit(price), totalArea(area) {}
+    WorkItem(const string& n, const string& u, double price)
+        : name(n), unit(u), pricePerUnit(price), totalArea(0.0) {}
 
     // Method to display detailed information about the work item
     void display() const {
         cout << "Name: " << name << "\n";
+        cout << "Unit: " << unit << "\n"; // Display unit as well
         cout << "Price per unit: " << pricePerUnit << "\n";
-        cout << "Total area: " << totalArea << "\n";
         cout << "-------------------------------------\n";
     }
-    string getName(){
-        return name;
-    }
 };
+
 
 class ShoppingCart {
 public:

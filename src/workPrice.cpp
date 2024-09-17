@@ -70,38 +70,34 @@ vector<WorkItem> searchInColumn(const vector<WorkItem> &workItems, const string 
 
 // Function to load work items from file
 // Function to load work items from file
-vector<WorkItem> loadWorkItems(const string &filename) {
+vector<WorkItem> loadWorkItems(const string &filename)
+{
     ifstream file(filename);
+
+    if (!file.is_open())
+    {
+        cerr << "Error: Could not open file " << filename << endl;
+        return {}; // Возвращаем пустой вектор в случае ошибки
+    }
+
     string line;
     vector<WorkItem> workItems;
 
-    while (getline(file, line)) {
+    while (getline(file, line))
+    {
         stringstream lineStream(line);
-        vector<string> row_data;
-        string cell;
+        string name;  // Поле для первого столбца
+        getline(lineStream, name, ',');  // Читаем только первый столбец (до разделителя ';')
 
-        while (getline(lineStream, cell, ';')) {
-            row_data.push_back(cell);
+        // Проверяем, что столбец не пустой
+        if (!name.empty())
+        {
+            // Создаём объект WorkItem с заполненным полем name, остальные поля можно оставить пустыми или с значениями по умолчанию
+            workItems.emplace_back(name, "", 0.0);  // В unit передаём пустую строку, а в pricePerUnit — 0.0
         }
-
-        if (row_data.size() > 0) {
-            string name = row_data[0];
-            double pricePerUnit = 0.0;
-            double totalArea = 0.0;
-
-            // Only try to convert if there are enough columns for numeric values
-            if (row_data.size() > 3) {
-                bool validPrice = stringToDouble(row_data[2], pricePerUnit);
-                bool validArea = stringToDouble(row_data[3], totalArea);
-
-                if (!validPrice || !validArea) {
-                    cerr << "Invalid number format in row: " << line << endl;
-                    cerr << "Column C: " << row_data[2] << ", Column D: " << row_data[3] << endl;
-                }
-            }
-
-            // Always create a WorkItem, even if numbers are invalid
-            workItems.emplace_back(name, pricePerUnit, totalArea);
+        else
+        {
+            cerr << "Invalid row format (empty name): " << line << endl;
         }
     }
 
@@ -225,7 +221,7 @@ void displayWorkItemNames(const vector<WorkItem> &workItems)
 // Main function
 void search()
 {
-    vector<WorkItem> workItems = loadWorkItems("../data_ListSmeta.csv");
+    vector<WorkItem> workItems = loadWorkItems("../floor.csv");
     ShoppingCart cart; // Create a ShoppingCart object
     displayWorkItemNames(workItems);
     // handleUserInput(workItems, cart);
