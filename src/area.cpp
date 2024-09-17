@@ -1,5 +1,4 @@
-#include <iostream>
-#include <cstdlib> // Для функции system()
+#include "headers.hpp" // Для функции system()
 using namespace std;
 
 // Функция для расчета площади пола

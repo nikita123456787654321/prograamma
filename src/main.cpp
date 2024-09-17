@@ -1,5 +1,6 @@
 #include "headers.hpp"
 #include "workPrice.hpp"
+#include "area.hpp"
 int main()
 {
     search();
