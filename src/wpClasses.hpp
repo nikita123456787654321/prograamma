@@ -5,21 +5,25 @@ using namespace std;
 class WorkItem {
 public:
     string name;
+    string unit;
     double pricePerUnit;
     double totalArea;
+    double totalPrice;
 
     // Default constructor
-    WorkItem() : name(""), pricePerUnit(0.0), totalArea(0.0) {}
+    WorkItem() : name(""), unit(""), pricePerUnit(0.0), totalArea(0.0), totalPrice(0.0) {}
 
     // Parameterized constructor
-    WorkItem(const string& n, double price, double area)
-        : name(n), pricePerUnit(price), totalArea(area) {}
+    WorkItem(const string& n,const string& u, double price, double zalupa)
+        : name(n),unit(u), pricePerUnit(price), totalPrice(zalupa) {}
 
     // Method to display detailed information about the work item
     void display() const {
         cout << "Name: " << name << "\n";
-        cout << "Price per unit: " << pricePerUnit << "\n";
-        cout << "Total area: " << totalArea << "\n";
+        cout << "Unit: " << unit << "\n";
+        cout << "Price per Unit: " << pricePerUnit << "\n";
+        cout << "Total Area: " << totalArea << "\n";
+        cout << "Total Price: " << totalPrice << "\n";
         cout << "-------------------------------------\n";
     }
     string getName(){
